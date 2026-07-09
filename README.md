@@ -100,13 +100,11 @@ Cada paquete es workspace independiente, consumido por las apps via `workspace:*
 
 ### Mapeo Semántico
 
-| Variable | Token |
-|----------|-------|
-| `--color-bg` | <img src="https://img.shields.io/badge/&#9632;-202920?style=flat-square&labelColor=202920&color=202920" width="16"> Terminal Black |
-| `--color-bg-inverse` | <img src="https://img.shields.io/badge/&#9632;-dff4e0?style=flat-square&labelColor=dff4e0&color=dff4e0" width="16"> Pixel Clean |
-| `--color-fg` | <img src="https://img.shields.io/badge/&#9632;-dff4e0?style=flat-square&labelColor=dff4e0&color=dff4e0" width="16"> Pixel Clean |
-| `--color-fg-inverse` | <img src="https://img.shields.io/badge/&#9632;-202920?style=flat-square&labelColor=202920&color=202920" width="16"> Terminal Black |
-| `--color-accent` | <img src="https://img.shields.io/badge/&#9632;-lime?style=flat-square&labelColor=93ee7a&color=93ee7a" width="16"> Syntax Lime |
+| Rol | Variables | Color |
+|-----|-----------|-------|
+| Fondo | `--color-bg`, `--color-fg-inverse` | <img src="https://img.shields.io/badge/-202920?style=flat-square&labelColor=202920&color=202920" width="14"> Terminal Black |
+| Superficie | `--color-fg`, `--color-bg-inverse` | <img src="https://img.shields.io/badge/-dff4e0?style=flat-square&labelColor=dff4e0&color=dff4e0" width="14"> Pixel Clean |
+| Acento | `--color-accent` | <img src="https://img.shields.io/badge/-syntax_lime?style=flat-square&labelColor=93ee7a&color=93ee7a" width="14"> Syntax Lime |
 
 Grises y verdes complementarios via `neutral-*` y `lime-*` de Tailwind v4.
 
