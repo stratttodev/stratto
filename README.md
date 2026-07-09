@@ -35,19 +35,21 @@
 ## Arquitectura
 
 ```mermaid
-graph TD
+graph LR
   subgraph apps["apps"]
-    WEB["@stratto/web<br><small>Landing Astro</small>"]
-    LAB["@stratto/lab<br><small>Futuro SaaS</small>"]
+    WEB["@stratto/web"]
+    LAB["@stratto/lab"]
   end
 
   subgraph packages["packages"]
-    TOKENS["@stratto/tokens<br><small>Design Tokens</small>"]
-    UI["@stratto/ui<br><small>Componentes React</small>"]
+    TOKENS["@stratto/tokens"]
+    UI["@stratto/ui"]
   end
 
-  WEB --> UI & TOKENS
-  LAB -.-> UI & TOKENS
+  WEB --> UI
+  WEB --> TOKENS
+  LAB -.-> UI
+  LAB -.-> TOKENS
   UI --> TOKENS
 
   style WEB fill:#202920,stroke:#1D5336,color:#dff4e0
