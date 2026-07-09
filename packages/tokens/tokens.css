@@ -1,29 +1,34 @@
 /**
  * STRATTO — Design Tokens
- * Fuente de verdad: Figma "curriculumRF" → página "branding"
- * Confirmados desde el brand board (pág. 06):
+ * Light mode (default) + Dark mode via .dark class
  */
 :root {
-   
+   /* --- Light mode (default) --- */
    --color-terminal-black: #202920;
    --color-pixel-clean: #dff4e0;
    --color-syntax-lime: oklch(93.1% 0.228 122.9);
 
-   /* --- Semántica --- */
-   --color-bg: var(--color-terminal-black);
-   --color-bg-inverse: var(--color-pixel-clean);
-   --color-fg: var(--color-pixel-clean);
-   --color-fg-inverse: var(--color-terminal-black);
+   /* --- Semántica (light) --- */
+   --color-bg: #ffffff;
+   --color-bg-secondary: #f5f5f5;
+   --color-fg: #1a1a1a;
+   --color-fg-secondary: #666666;
    --color-accent: var(--color-syntax-lime);
 
-   /* --- Tipografía (monoespaciada, look terminal/código) --- */
+   /* --- Tipografía --- */
    --font-display: "Lilex", "Cascadia Code", ui-monospace, monospace;
    --font-mono: "Cascadia Code", "Lilex", ui-monospace, monospace;
    --font-body: "Cascadia Code", "Lilex", ui-monospace, monospace;
 
-   /* --- Geometría base (dualidad bloques lógicos / fluidez) --- */
+   /* --- Geometría --- */
    --radius-block: 0px;
-   /* bloques de infraestructura: sin redondeo */
    --radius-fluid: 999px;
-   /* elementos de interacción: full pill */
+}
+
+.dark {
+   /* --- Dark mode --- */
+   --color-bg: var(--color-terminal-black);
+   --color-bg-secondary: #1a221a;
+   --color-fg: var(--color-pixel-clean);
+   --color-fg-secondary: rgba(223, 244, 224, 0.7);
 }

@@ -8,6 +8,11 @@
   --color-pixel-clean: var(--color-pixel-clean);
   --color-syntax-lime: var(--color-syntax-lime);
 
+  --color-bg: var(--color-bg);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-fg: var(--color-fg);
+  --color-fg-secondary: var(--color-fg-secondary);
+
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
   --font-body: var(--font-body);

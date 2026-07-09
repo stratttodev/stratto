@@ -1,0 +1,223 @@
+---
+/**
+ * Navbar — Barra de navegación global
+ * Navbar = contenedor flotante sin bg
+ * NavbarInner = tiene bg overlay que se desvanece suavemente
+ */
+import Isotype from "../icons/Isotype.astro";
+import LetterLogo from "../icons/letterLogo.astro";
+import Menu from "../icons/Menu.astro";
+import Moon from "../icons/Moon.astro";
+import Sun from "../icons/Sun.astro";
+---
+
+<div id="navbar" class="fixed top-0 left-0 w-full z-50 mt-4 md:mt-6 pointer-events-none">
+  <nav
+    id="navbar-inner"
+    class="relative mx-auto flex items-center justify-between font-mono text-2xl px-8 py-6 md:px-16 md:py-10 pointer-events-auto overflow-hidden transition-[max-width,border-radius] duration-700 ease-in-out"
+  >
+    <!-- Background overlay -->
+    <div
+      id="navbar-bg"
+      class="absolute inset-0 rounded-xl transition-all duration-700 ease-in-out opacity-0 backdrop-blur-md"
+    ></div>
+
+    <!-- Content -->
+    <div class="relative z-10 flex items-center justify-between w-full">
+      <!-- Left: Isotype + Logo -->
+      <div class="flex items-center gap-3">
+        <Isotype class="w-6 h-6" />
+        <LetterLogo class="h-5 w-auto" />
+      </div>
+
+      <!-- Right: Icons + /labs -->
+      <div class="flex items-center gap-5">
+        <Menu class="cursor-pointer" />
+        <span class="font-display italic font-bold text-sm">us</span>
+        <button id="theme-toggle" class="cursor-pointer relative w-5 h-5" aria-label="Toggle dark mode">
+          <span id="icon-moon" class="absolute inset-0 transition-all duration-300 ease-in-out"><Moon class="cursor-pointer" /></span>
+          <span id="icon-sun" class="absolute inset-0 transition-all duration-300 ease-in-out opacity-0 scale-50"><Sun class="cursor-pointer" /></span>
+        </button>
+        <span class="font-display italic font-bold text-sm">/labs</span>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<script>
+  const navbarInner = document.getElementById("navbar-inner");
+  const navbarBg = document.getElementById("navbar-bg");
+  const toggleBtn = document.getElementById("theme-toggle");
+  const iconMoon = document.getElementById("icon-moon");
+  const iconSun = document.getElementById("icon-sun");
+  const html = document.documentElement;
+
+  const bgColors = {
+    dark: "bg-terminal-black",
+    light: "bg-white",
+  };
+
+  const textColors = {
+    dark: "text-pixel-clean",
+    light: "text-[#1a1a1a]",
+  };
+
+  const iconColors = {
+    moon: "text-sky-400",
+    sun: "text-amber-400",
+  };
+
+  let currentAppliedTheme: "dark" | "light" | "reset" = "reset";
+  let isDarkMode = false;
+
+  function updateSvgClasses(el: SVGElement, classes: string[]) {
+    const current = el.getAttribute("class") || "";
+    const cleaned = current.replace(/text-\S+/g, "").trim();
+    el.setAttribute("class", [...cleaned.split(/\s+/), ...classes].join(" "));
+  }
+
+  function updateIcons(mode: "dark" | "light") {
+    const moonIcon = iconMoon?.querySelector("svg") as SVGElement | null;
+    const sunIcon = iconSun?.querySelector("svg") as SVGElement | null;
+    const menuIcon = navbarInner?.querySelector("svg:first-of-type") as SVGElement | null;
+    const isotypeIcon = navbarInner?.querySelector("[class*='w-6']") as SVGElement | null;
+    const letterLogo = navbarInner?.querySelector("[class*='h-5']") as SVGElement | null;
+
+    [menuIcon, isotypeIcon, letterLogo].forEach((el) => {
+      if (el) updateSvgClasses(el, [textColors[mode]]);
+    });
+
+    if (moonIcon) updateSvgClasses(moonIcon, [iconColors.moon]);
+    if (sunIcon) updateSvgClasses(sunIcon, [iconColors.sun]);
+  }
+
+  function updateTextSpans(mode: "dark" | "light") {
+    if (!navbarInner) return;
+    const spans = navbarInner.querySelectorAll("span");
+    spans.forEach((span) => {
+      if (span.classList.contains("font-display")) {
+        span.className = span.className.replace(/text-\S+/g, "");
+        span.classList.add(textColors[mode]);
+      }
+    });
+  }
+
+  function applyNavbarStyle(sectionTheme: "dark" | "light") {
+    if (!navbarInner || !navbarBg) return;
+
+    // In dark mode: always white navbar
+    // In light mode: invert based on section
+    const navbarMode = isDarkMode ? "light" : (sectionTheme === "light" ? "dark" : "light");
+
+    // Skip if already applied
+    if (currentAppliedTheme === sectionTheme && !isDarkMode) return;
+    currentAppliedTheme = sectionTheme;
+
+    // Fade in background
+    navbarBg.classList.remove("opacity-0");
+    navbarBg.classList.add("opacity-100");
+    navbarBg.className = navbarBg.className.replace(/bg-\S+/g, "");
+    navbarBg.classList.add(bgColors[navbarMode]);
+
+    // Update text color
+    navbarInner.className = navbarInner.className.replace(/text-\S+/g, "");
+    navbarInner.classList.add(textColors[navbarMode]);
+
+    // Update icons and text
+    updateIcons(navbarMode);
+    updateTextSpans(navbarMode);
+  }
+
+  function resetNavbar() {
+    if (!navbarInner || !navbarBg) return;
+
+    currentAppliedTheme = "reset";
+
+    // Fade out background
+    navbarBg.classList.remove("opacity-100");
+    navbarBg.classList.add("opacity-0");
+
+    // Reset text to white
+    navbarInner.className = navbarInner.className.replace(/text-\S+/g, "");
+    navbarInner.classList.add("text-pixel-clean");
+
+    // Update icons to white
+    updateIcons("dark");
+    updateTextSpans("dark");
+  }
+
+  function updateToggleIcon() {
+    if (isDarkMode) {
+      // Show sun, hide moon
+      iconMoon?.classList.add("opacity-0", "scale-50");
+      iconMoon?.classList.remove("opacity-100", "scale-100");
+      iconSun?.classList.remove("opacity-0", "scale-50");
+      iconSun?.classList.add("opacity-100", "scale-100");
+    } else {
+      // Show moon, hide sun
+      iconMoon?.classList.remove("opacity-0", "scale-50");
+      iconMoon?.classList.add("opacity-100", "scale-100");
+      iconSun?.classList.add("opacity-0", "scale-50");
+      iconSun?.classList.remove("opacity-100", "scale-100");
+    }
+  }
+
+  const SCROLL_THRESHOLD = 1;
+
+  function getCurrentSectionTheme(): "dark" | "light" {
+    const sections = document.querySelectorAll("[data-theme]");
+    const navbarHeight = 100;
+
+    for (const section of sections) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= navbarHeight && rect.bottom > navbarHeight) {
+        return section.getAttribute("data-theme") as "dark" | "light";
+      }
+    }
+
+    const first = sections[0];
+    if (first) {
+      return first.getAttribute("data-theme") as "dark" | "light";
+    }
+    return "dark";
+  }
+
+  function updateScrollState() {
+    if (!navbarInner) return;
+    const scrolled = window.scrollY > SCROLL_THRESHOLD;
+
+    if (scrolled) {
+      navbarInner.style.maxWidth = "64rem";
+      navbarInner.classList.add("rounded-xl");
+
+      const theme = getCurrentSectionTheme();
+      applyNavbarStyle(theme);
+    } else {
+      navbarInner.style.maxWidth = "100%";
+      navbarInner.classList.remove("rounded-xl");
+
+      resetNavbar();
+    }
+  }
+
+  window.addEventListener("scroll", updateScrollState, { passive: true });
+
+  toggleBtn?.addEventListener("click", () => {
+    isDarkMode = !isDarkMode;
+    html.classList.toggle("dark", isDarkMode);
+    updateToggleIcon();
+
+    // Only re-apply if scrolled
+    const scrolled = window.scrollY > SCROLL_THRESHOLD;
+    if (scrolled) {
+      currentAppliedTheme = "reset";
+      const theme = getCurrentSectionTheme();
+      applyNavbarStyle(theme);
+    }
+  });
+
+  // Initialize
+  updateToggleIcon();
+  resetNavbar();
+  updateScrollState();
+</script>

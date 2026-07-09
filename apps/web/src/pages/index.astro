@@ -1,78 +1,44 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { FluidBackground } from "@stratto/ui";
+import Navbar from "../components/Navbar.astro";
+import Header from "../components/Header.astro";
+import WhoAre from "../components/WhoAre.astro";
+import Services from "../components/Services.astro";
+import Teams from "../components/Teams.astro";
+import Separator from "../components/Separator.astro";
+import Collab from "../components/Collab.astro";
+import Tech from "../components/Tech.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <Layout title="Inicio">
-  <FluidBackground client:load />
-  <main class="absolute w-full top-0 z-1 min-h-screen flex flex-col justify-between px-6 py-10 md:px-16 md:py-16">
-    <header class="flex items-center justify-between font-mono text-2xl">
-      <span>strattσ</span>
-      <span class="text-syntax-lime">/lab</span>
-    </header>
+  <Navbar />
+  <Header />
+  <main>
+    <WhoAre>
+      <Fragment slot="heading">Quiénes somos</Fragment>
+    </WhoAre>
 
-    <section class="max-w-3xl">
-      <p class="font-mono text-syntax-lime text-sm mb-4">// vender tecnología es ir al día en ella</p>
-      <h1 class="font-display text-5xl md:text-7xl leading-snug mb-6">
-        <span class="italic bg-syntax-lime text-terminal-black px-2 inline-block"><span id="rotating-word"></span><span class="cursor-blink" aria-hidden="true">_</span></span>de tecnología y diseño de interfaces.
-      </h1>
-      <p class="font-body text-base md:text-lg text-pixel-clean/70 max-w-xl">
-        Construimos infraestructura sólida (bloques lógicos) y experiencias fluidas
-        (UI/UX) para productos que necesitan estar a la vanguardia del desarrollo web.
-      </p>
-    </section>
+    <Services>
+      <Fragment slot="heading">Servicios</Fragment>
+    </Services>
 
-    <footer class="font-mono text-xs text-pixel-clean/50">
-      scaffold inicial — reemplazar con diseño final de Figma
-    </footer>
+    <Teams>
+      <Fragment slot="heading">Equipos</Fragment>
+    </Teams>
+
+    <Separator />
+
+    <Collab>
+      <Fragment slot="heading">Colaboración</Fragment>
+    </Collab>
+
+    <Tech>
+      <Fragment slot="heading">Tecnología</Fragment>
+    </Tech>
   </main>
+
+  <Footer>
+    <Fragment slot="brand">strattσ</Fragment>
+  </Footer>
 </Layout>
-
-<script>
-  const words = ["Laboratorio", "Estudio", "Desarrollo", "Ingeniería"];
-  const el = document.getElementById("rotating-word");
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  if (el && prefersReducedMotion) {
-    el.textContent = words[0];
-  } else if (el) {
-    const TYPE_SPEED = 70;
-    const DELETE_SPEED = 40;
-    const PAUSE_AFTER_TYPE = 1800;
-
-    let wordIndex = 0;
-    let charIndex = 0;
-    let deleting = false;
-
-    const wordEl = el;
-
-    function tick() {
-      const current = words[wordIndex];
-
-      if (!deleting) {
-        charIndex++;
-        wordEl.textContent = current.slice(0, charIndex);
-
-        if (charIndex === current.length) {
-          deleting = true;
-          setTimeout(tick, PAUSE_AFTER_TYPE);
-          return;
-        }
-        setTimeout(tick, TYPE_SPEED);
-      } else {
-        charIndex--;
-        wordEl.textContent = current.slice(0, charIndex);
-
-        if (charIndex === 0) {
-          deleting = false;
-          wordIndex = (wordIndex + 1) % words.length;
-        }
-        setTimeout(tick, DELETE_SPEED);
-      }
-    }
-
-    tick();
-  }
-</script>

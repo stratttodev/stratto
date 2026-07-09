@@ -1,0 +1,112 @@
+---
+/**
+ * Header — Sección de inicio / hero
+ * Texto rotativo sobre fondo oscuro
+ * Se comprime al scroll para revelar siguiente sección
+ */
+---
+
+<header
+  id="site-header"
+  data-theme="dark"
+  class="relative w-full min-h-screen bg-terminal-black flex flex-col justify-between px-6 py-10 md:px-16 md:py-16 transition-all duration-700 ease-in-out"
+>
+  <div></div>
+
+  <section class="max-w-3xl">
+    <p class="font-mono text-syntax-lime text-sm mb-4">// vender tecnología es ir al día en ella</p>
+    <h1 class="font-display text-5xl md:text-7xl leading-snug mb-6 text-pixel-clean">
+      <span class="italic bg-syntax-lime text-terminal-black px-2 inline-block">
+        <span id="rotating-word"></span><span class="cursor-blink" aria-hidden="true">_</span>
+      </span>
+      <br />
+      de tecnología y diseño de interfaces.
+    </h1>
+    <p class="font-body text-base md:text-lg text-pixel-clean/70 max-w-xl">
+      Construimos infraestructura sólida (bloques lógicos) y experiencias fluidas
+      (UI/UX) para productos que necesitan estar a la vanguardia del desarrollo web.
+    </p>
+  </section>
+
+  <footer class="font-mono text-xs text-pixel-clean/50">
+    scaffold inicial — reemplazar con diseño final de Figma
+  </footer>
+</header>
+
+<script>
+  const header = document.getElementById("site-header");
+  const SCROLL_THRESHOLD = 1;
+
+  function updateHeader() {
+    if (!header) return;
+    const scrolled = window.scrollY > SCROLL_THRESHOLD;
+    const isMd = window.innerWidth >= 768;
+    const marginX = isMd ? 2 : 1; // rem
+    const marginTop = isMd ? 2.5 : 1.5; // rem - un poco mas arriba
+    const marginBottom = isMd ? 1.5 : 0.75; // rem
+
+    if (scrolled) {
+      header.style.margin = `${marginTop}rem ${marginX}rem ${marginBottom}rem ${marginX}rem`;
+      header.style.minHeight = "90vh";
+      header.style.width = `calc(100% - ${marginX * 2}rem)`;
+      header.classList.add("rounded-2xl", "overflow-hidden");
+    } else {
+      header.style.margin = "0";
+      header.style.minHeight = "100vh";
+      header.style.width = "100%";
+      header.classList.remove("rounded-2xl", "overflow-hidden");
+    }
+  }
+
+  window.addEventListener("scroll", updateHeader, { passive: true });
+  updateHeader();
+</script>
+
+<script>
+  const words = ["Laboratorio", "Estudio", "Desarrollo", "Ingeniería"];
+  const el = document.getElementById("rotating-word");
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (el && prefersReducedMotion) {
+    el.textContent = words[0];
+  } else if (el) {
+    const TYPE_SPEED = 100;
+    const DELETE_SPEED = 40;
+    const PAUSE_AFTER_TYPE = 1800;
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    const wordEl = el;
+
+    function tick() {
+      const current = words[wordIndex];
+
+      if (!deleting) {
+        charIndex++;
+        wordEl.textContent = current.slice(0, charIndex);
+
+        if (charIndex === current.length) {
+          deleting = true;
+          setTimeout(tick, PAUSE_AFTER_TYPE);
+          return;
+        }
+        setTimeout(tick, TYPE_SPEED);
+      } else {
+        charIndex--;
+        wordEl.textContent = current.slice(0, charIndex);
+
+        if (charIndex === 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+        }
+        setTimeout(tick, DELETE_SPEED);
+      }
+    }
+
+    tick();
+  }
+</script>
