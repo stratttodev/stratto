@@ -1,0 +1,38 @@
+---
+import "../styles/global.css";
+
+// Lilex y Cascadia Code vía Fontsource — son los mismos archivos que sirve
+// Google Fonts, pero empaquetados como dependencia npm: Astro los sirve
+// desde tu propio dominio en el build, sin request externa a
+// fonts.googleapis.com. Pesos según lo usado en tokens.css / global.css.
+import "@fontsource/lilex/400.css";
+import "@fontsource/lilex/500.css";
+import "@fontsource/lilex/700.css";
+import "@fontsource/lilex/400-italic.css";
+import "@fontsource/cascadia-code/400.css";
+import "@fontsource/cascadia-code/600.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "STRATTO — laboratorio de tecnología, desarrollo de software y diseño de interfaces.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} · STRATTO</title>
+  </head>
+  <body class="bg-terminal-black text-pixel-clean font-body antialiased">
+    <slot />
+  </body>
+</html>

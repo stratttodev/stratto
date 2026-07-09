@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import "@stratto/tokens";
+
+/* Tailwind v4: mapeamos los CSS custom properties de @stratto/tokens
+   como theme tokens, para poder usar bg-terminal-black, text-syntax-lime, etc. */
+@theme {
+  --color-terminal-black: var(--color-terminal-black);
+  --color-pixel-clean: var(--color-pixel-clean);
+  --color-syntax-lime: var(--color-syntax-lime);
+
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --font-body: var(--font-body);
+
+  --radius-block: var(--radius-block);
+  --radius-fluid: var(--radius-fluid);
+}
+
+html {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+/* Cursor de terminal parpadeante (bloque discreto, no fade) */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor-blink {
+    animation: none;
+  }
+}

@@ -1,0 +1,29 @@
+/**
+ * STRATTO — Design Tokens
+ * Fuente de verdad: Figma "curriculumRF" → página "branding"
+ * Confirmados desde el brand board (pág. 06):
+ */
+:root {
+   
+   --color-terminal-black: #202920;
+   --color-pixel-clean: #dff4e0;
+   --color-syntax-lime: oklch(93.1% 0.228 122.9);
+
+   /* --- Semántica --- */
+   --color-bg: var(--color-terminal-black);
+   --color-bg-inverse: var(--color-pixel-clean);
+   --color-fg: var(--color-pixel-clean);
+   --color-fg-inverse: var(--color-terminal-black);
+   --color-accent: var(--color-syntax-lime);
+
+   /* --- Tipografía (monoespaciada, look terminal/código) --- */
+   --font-display: "Lilex", "Cascadia Code", ui-monospace, monospace;
+   --font-mono: "Cascadia Code", "Lilex", ui-monospace, monospace;
+   --font-body: "Cascadia Code", "Lilex", ui-monospace, monospace;
+
+   /* --- Geometría base (dualidad bloques lógicos / fluidez) --- */
+   --radius-block: 0px;
+   /* bloques de infraestructura: sin redondeo */
+   --radius-fluid: 999px;
+   /* elementos de interacción: full pill */
+}
