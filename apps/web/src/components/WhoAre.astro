@@ -1,17 +1,38 @@
 ---
 /**
  * WhoAre — Sección "Quiénes somos"
+ * Scroll-Driven Text Color Fill animation
  */
 ---
 
-<section id="whoare" data-theme="light" class="relative w-full py-24 px-6 md:px-16 bg-bg">
-  <div class="max-w-6xl mx-auto">
-    <p class="font-mono text-syntax-lime text-sm mb-4">// whoare</p>
-    <h2 class="font-display text-4xl md:text-5xl mb-6 text-fg">
-      <slot name="heading" />
+<section id="whoare" data-theme="light" class="relative w-full py-32 px-6 md:px-16 bg-bg overflow-hidden">
+  <div class="max-w-4xl mx-auto text-center">
+    <p class="font-mono text-accent-green text-sm mb-8">// whoare</p>
+    
+    <h2 class="font-display text-3xl md:text-4xl lg:text-4xl leading-relaxed text-fg mb-12 scroll-text-reveal">
+      Fusionamos la 
+      <span class="font-bold italic text-accent-green highlight-text">ingeniería de software</span> 
+      <br>más moderna con la
+      <span class="font-bold italic text-accent-green highlight-text">dirección de arte contemporánea</span>, 
+      asegurando que cada producto digital sea un ecosistema robusto, ágil y visualmente impecable.
     </h2>
-    <div class="font-body text-base md:text-lg text-fg-secondary max-w-2xl">
-      <slot />
-    </div>
+
+    <a href="/contacto" class="inline-flex items-center gap-3 bg-accent-lime text-terminal-black font-mono font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-300">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      </svg>
+      Trabajemos Juntos!
+    </a>
   </div>
 </section>
+
+<style>
+  /* Placeholder - reemplazar con GSAP ScrollTrigger después */
+  .scroll-text-reveal {
+    opacity: 1;
+  }
+
+  .highlight-text {
+    color: var(--color-accent-green);
+  }
+</style>

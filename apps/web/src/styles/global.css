@@ -12,6 +12,8 @@
   --color-bg-secondary: var(--color-bg-secondary);
   --color-fg: var(--color-fg);
   --color-fg-secondary: var(--color-fg-secondary);
+  --color-accent-green: var(--color-accent-green);
+  --color-accent-lime: var(--color-accent-lime);
 
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);

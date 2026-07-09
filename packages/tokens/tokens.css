@@ -14,6 +14,8 @@
    --color-fg: #1a1a1a;
    --color-fg-secondary: #666666;
    --color-accent: var(--color-syntax-lime);
+   --color-accent-green: #00DA9D;
+   --color-accent-lime: #CDFF00;
 
    /* --- Tipografía --- */
    --font-display: "Lilex", "Cascadia Code", ui-monospace, monospace;
