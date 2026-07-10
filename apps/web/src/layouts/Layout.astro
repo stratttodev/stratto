@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 // Lilex y Cascadia Code vía Fontsource — son los mismos archivos que sirve
 // Google Fonts, pero empaquetados como dependencia npm: Astro los sirve
@@ -36,5 +37,6 @@ const {
   <body class="bg-bg text-fg font-body antialiased">
     <slot />
     <Analytics />
+    <SpeedInsights />
   </body>
 </html>
