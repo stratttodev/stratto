@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@stratto/tokens";
 
+@variant dark (&:where(.dark, .dark *));
+
 /* Tailwind v4: mapeamos los CSS custom properties de @stratto/tokens
    como theme tokens, para poder usar bg-terminal-black, text-syntax-lime, etc. */
 @theme {
@@ -14,6 +16,7 @@
   --color-fg-secondary: var(--color-fg-secondary);
   --color-accent-green: var(--color-accent-green);
   --color-accent-lime: var(--color-accent-lime);
+  --color-card: var(--color-card);
 
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);

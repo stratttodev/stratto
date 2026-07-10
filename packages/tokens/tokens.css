@@ -16,6 +16,7 @@
    --color-accent: var(--color-syntax-lime);
    --color-accent-green: #00DA9D;
    --color-accent-lime: #CDFF00;
+   --color-card: #DFF4E0;
 
    /* --- Tipografía --- */
    --font-display: "Lilex", "Cascadia Code", ui-monospace, monospace;
@@ -33,4 +34,5 @@
    --color-bg-secondary: #1a221a;
    --color-fg: var(--color-pixel-clean);
    --color-fg-secondary: rgba(223, 244, 224, 0.7);
+   --color-card: #1a221a;
 }
