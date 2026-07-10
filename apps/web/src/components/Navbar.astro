@@ -270,16 +270,14 @@ const navLinks = [
 
     if (scrolled) {
       navbarInner.style.maxWidth = "64rem";
-      navbarInner.style.marginLeft = margin;
-      navbarInner.style.marginRight = margin;
+      navbarInner.style.margin = `${margin} auto`;
       navbarInner.classList.add("rounded-xl");
 
       const theme = getCurrentSectionTheme();
       applyNavbarStyle(theme);
     } else {
       navbarInner.style.maxWidth = "100%";
-      navbarInner.style.marginLeft = "";
-      navbarInner.style.marginRight = "";
+      navbarInner.style.margin = "";
       navbarInner.classList.remove("rounded-xl");
 
       resetNavbar();
