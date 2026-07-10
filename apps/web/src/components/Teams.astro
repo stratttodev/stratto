@@ -1,17 +1,96 @@
 ---
 /**
  * Teams — Sección de equipos
+ * Píldoras animadas con scale/blur según profundidad
  */
 ---
 
-<section id="teams" data-theme="light" class="relative w-full py-24 px-6 md:px-16 bg-bg">
-  <div class="max-w-6xl mx-auto">
-    <p class="font-mono text-syntax-lime text-sm mb-4">// teams</p>
-    <h2 class="font-display text-4xl md:text-5xl mb-12 text-fg">
-      <slot name="heading" />
+<section id="teams" data-theme="light" class="relative w-full py-32 px-6 md:px-16 bg-bg overflow-hidden">
+  <div class="max-w-5xl mx-auto">
+    <p class="font-mono text-accent-green text-sm mb-8">// teams</p>
+    
+    <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-fg mb-20 leading-tight">
+      Un equipo dedicado,<br>
+      <span class="font-bold italic">totalmente integrado.</span>
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <slot />
+
+    <div class="relative h-80 md:h-96 w-full">
+      <!-- Fila superior -->
+      <div class="absolute top-0 left-0 md:left-[10%]">
+        <span class="pill pill-sm bg-accent-green dark:bg-green-400 text-white dark:text-green-950 font-bold italic">
+          Diseño
+        </span>
+      </div>
+      <div class="absolute top-0 right-0 md:right-[10%]">
+        <span class="pill pill-sm bg-[#DFF4E0] dark:bg-green-100 text-green-900 dark:text-green-900 font-bold italic">
+          Gestión
+        </span>
+      </div>
+
+      <!-- Fila media (más grande) -->
+      <div class="absolute top-1/2 -translate-y-1/2 left-0 md:left-[5%]">
+        <span class="pill pill-lg bg-accent-lime dark:bg-lime-300 text-lime-900 dark:text-lime-900 font-bold italic">
+          Planificación
+        </span>
+      </div>
+      <div class="absolute top-1/2 -translate-y-1/2 right-0 md:right-[5%]">
+        <span class="pill pill-lg bg-rose-400 dark:bg-rose-300 text-white dark:text-rose-950 font-bold italic">
+          Implementación
+        </span>
+      </div>
+
+      <!-- Fila inferior -->
+      <div class="absolute bottom-0 left-0 md:left-[10%]">
+        <span class="pill pill-sm bg-orange-400 dark:bg-orange-300 text-white dark:text-orange-950 font-bold italic">
+          Ingeniería
+        </span>
+      </div>
+      <div class="absolute bottom-0 right-0 md:right-[10%]">
+        <span class="pill pill-sm bg-violet-400 dark:bg-violet-300 text-white dark:text-violet-950 font-bold italic">
+          Desarrollo
+        </span>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-family: var(--font-display);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  .pill-sm {
+    font-size: 0.875rem;
+    padding: 0.5rem 1.25rem;
+  }
+
+  .pill-lg {
+    font-size: 1.125rem;
+    padding: 0.75rem 1.75rem;
+  }
+
+  /* Profundidad: scale + blur */
+  .pill-depth-1 {
+    transform: scale(0.9);
+    filter: blur(1px);
+    opacity: 0.8;
+  }
+
+  .pill-depth-2 {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+
+  .pill-depth-3 {
+    transform: scale(1.1);
+    filter: blur(0);
+    opacity: 1;
+  }
+</style>
