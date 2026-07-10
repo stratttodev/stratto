@@ -1,48 +1,49 @@
 ---
 /**
  * Collab — Sección de colaboración
- * Card con imagen de fondo y CTA superpuesto
+ * Card con imagen de fondo y CTA
  */
 import collabBg from "../assets/collabBg.png";
 ---
 
-<section id="collab" data-theme="light"  class="relative w-full py-24 bg-bg">
+<section id="collab" data-theme="light" class="relative w-full py-6 md:py-24 px-8 md:px-16 bg-bg">
   <div class="max-w-6xl mx-auto">
     <div class="relative rounded-3xl overflow-hidden bg-lime-100 dark:bg-lime-900">
       <!-- Contenido -->
       <div class="relative z-10 min-h-100">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
-          <!-- Columna izquierda: texto -->
+          <!-- Columna izquierda: texto + CTA -->
           <div class="flex flex-col justify-center p-8 md:p-12 lg:p-16">
             <p class="font-mono text-lime-500 dark:text-accent-lime text-sm mb-6">// collab</p>
             
-            <h2 class="font-display text-3xl md:text-4xl lg:text-4xl text-text-fg dark:text-white leading-tight mb-6">
+            <h2 class="font-display text-2xl md:text-4xl lg:text-4xl text-text-fg dark:text-white leading-tight mb-6">
               Colaboramos con emprendedores en<br>
               <span class="font-bold italic tracking-tight text-lime-500 dark:text-accent-lime">todo Chile.</span>
             </h2>
 
-            <p class="font-body text-black/50 dark:text-white/70 text-sm md:text-base max-w-md">
+            <p class="font-body text-black/50 dark:text-white/70 text-sm md:text-base max-w-md mb-8">
               Operamos 100% digital lo que nos favorece la comunicación rápida y trabajo efectivo para cualquier punto del país.
             </p>
+
+            <!-- CTA debajo del texto -->
+            <div>
+              <a href="/contacto" class="inline-flex items-center gap-3 bg-accent-lime dark:bg-lime-200 text-text-fg dark:text-black font-mono font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+                hablemos!
+              </a>
+            </div>
           </div>
 
-          <!-- Columna derecha: imagen + CTA -->
-          <div class="relative flex items-center justify-center">
-            <div class="absolute top-0 bottom-0 right-0 w-full">
+          <!-- Columna derecha: imagen -->
+          <div class="hidden md:flex relative items-center justify-center min-h-70 md:min-h-0 overflow-hidden">
+            <div class="absolute inset-0 w-[140%] right-[-40%]">
               <img 
                 src={collabBg.src} 
                 alt="Colaboración" 
                 class="w-full h-full object-cover"
               />
-              <!-- CTA sobre la imagen -->
-              <div class="absolute bottom-30 -left-10">
-                <a href="/contacto" class="inline-flex items-center gap-3 bg-accent-lime dark:bg-lime-200 text-text-fg dark:text-black font-mono font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-300">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                  hablemos!
-                </a>
-              </div>
             </div>
           </div>
         </div>

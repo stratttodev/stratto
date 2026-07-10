@@ -42,7 +42,7 @@ const navLinks = [
       <!-- Center: Nav Links (hidden by default, shown when menu open) -->
       <nav
         id="nav-links"
-        class="flex items-center gap-8 font-mono text-xs opacity-0 pointer-events-none -translate-y-2.5 transition-all duration-300"
+        class="hidden md:flex items-center gap-8 font-mono text-xs opacity-0 pointer-events-none -translate-y-2.5 transition-all duration-300"
       >
         {navLinks.map(({ label, href }) => (
           <a
@@ -65,9 +65,27 @@ const navLinks = [
           <span id="icon-moon" class="absolute inset-0 transition-all duration-300 ease-in-out"><Moon class="cursor-pointer" /></span>
           <span id="icon-sun" class="absolute inset-0 transition-all duration-300 ease-in-out opacity-0 scale-50"><Sun class="cursor-pointer" /></span>
         </button>
-        <span class="font-display italic font-bold text-sm">/labs</span>
+        <span class="font-display italic font-bold text-sm hidden md:inline">/labs</span>
       </div>
     </div>
+  </nav>
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div
+  id="mobile-menu"
+  class="md:hidden fixed inset-0 z-40 flex items-center justify-center bg-bg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 ease-in-out"
+>
+  <nav class="flex flex-col items-center gap-10">
+    {navLinks.map(({ label, href }, index) => (
+      <a
+        href={href}
+        class="mobile-nav-link font-display text-5xl text-fg hover:text-accent-green hover:scale-110 transition-all duration-300 translate-y-8 opacity-0"
+        style={`transition-delay: ${index * 75}ms`}
+      >
+        {label}
+      </a>
+    ))}
   </nav>
 </div>
 
@@ -77,6 +95,8 @@ const navLinks = [
   const toggleBtn = document.getElementById("theme-toggle");
   const menuToggle = document.getElementById("menu-toggle");
   const navLinks = document.getElementById("nav-links");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
   const iconMoon = document.getElementById("icon-moon");
   const iconSun = document.getElementById("icon-sun");
   const html = document.documentElement;
@@ -191,12 +211,34 @@ const navLinks = [
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
 
-    if (isMenuOpen) {
-      navLinks?.classList.remove("opacity-0", "pointer-events-none", "-translate-y-2.5");
-      navLinks?.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
-    } else {
-      navLinks?.classList.add("opacity-0", "pointer-events-none", "-translate-y-2.5");
-      navLinks?.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+    // Desktop: inline links
+    if (navLinks) {
+      if (isMenuOpen) {
+        navLinks.classList.remove("opacity-0", "pointer-events-none", "-translate-y-2.5");
+        navLinks.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+      } else {
+        navLinks.classList.add("opacity-0", "pointer-events-none", "-translate-y-2.5");
+        navLinks.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+      }
+    }
+
+    // Mobile: overlay menu
+    if (mobileMenu) {
+      if (isMenuOpen) {
+        mobileMenu.classList.remove("opacity-0", "pointer-events-none");
+        mobileMenu.classList.add("opacity-100", "pointer-events-auto");
+        mobileNavLinks.forEach((link) => {
+          link.classList.remove("translate-y-8", "opacity-0");
+          link.classList.add("translate-y-0", "opacity-100");
+        });
+      } else {
+        mobileMenu.classList.add("opacity-0", "pointer-events-none");
+        mobileMenu.classList.remove("opacity-100", "pointer-events-auto");
+        mobileNavLinks.forEach((link) => {
+          link.classList.add("translate-y-8", "opacity-0");
+          link.classList.remove("translate-y-0", "opacity-100");
+        });
+      }
     }
   }
 
@@ -223,15 +265,21 @@ const navLinks = [
   function updateScrollState() {
     if (!navbarInner) return;
     const scrolled = window.scrollY > SCROLL_THRESHOLD;
+    const isMd = window.innerWidth >= 768;
+    const margin = isMd ? "1.5rem" : "1rem";
 
     if (scrolled) {
       navbarInner.style.maxWidth = "64rem";
+      navbarInner.style.marginLeft = margin;
+      navbarInner.style.marginRight = margin;
       navbarInner.classList.add("rounded-xl");
 
       const theme = getCurrentSectionTheme();
       applyNavbarStyle(theme);
     } else {
       navbarInner.style.maxWidth = "100%";
+      navbarInner.style.marginLeft = "";
+      navbarInner.style.marginRight = "";
       navbarInner.classList.remove("rounded-xl");
 
       resetNavbar();
@@ -243,6 +291,12 @@ const navLinks = [
   menuToggle?.addEventListener("click", toggleMenu);
 
   navLinks?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (isMenuOpen) toggleMenu();
+    });
+  });
+
+  mobileMenu?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       if (isMenuOpen) toggleMenu();
     });
