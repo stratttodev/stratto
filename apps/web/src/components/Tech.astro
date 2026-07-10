@@ -1,17 +1,86 @@
 ---
 /**
  * Tech — Sección de tecnologías
+ * Grid 2 columnas + carousel de logos infinitos
  */
+import caAstro from "../icons/caAstro.astro";
+import caFirebase from "../icons/caFirebase.astro";
+import caFigma from "../icons/caFigma.astro";
+import caGithub from "../icons/caGithub.astro";
+import caGoogle from "../icons/caGoogle.astro";
+import caLarabel from "../icons/caLarabel.astro";
+import caNode from "../icons/caNode.astro";
+import caReact from "../icons/caReact.astro";
+import caSupabase from "../icons/caSupabase.astro";
+import caTailwind from "../icons/caTailwind.astro";
+import caVercel from "../icons/caVercel.astro";
+
+const logos = [
+  { icon: caAstro, name: "Astro" },
+  { icon: caFirebase, name: "Firebase" },
+  { icon: caFigma, name: "Figma" },
+  { icon: caGithub, name: "GitHub" },
+  { icon: caGoogle, name: "Google" },
+  { icon: caLarabel, name: "Laravel" },
+  { icon: caVercel, name: "Vercel" },
+  { icon: caNode, name: "Node.js" },
+  { icon: caReact, name: "React" },
+  { icon: caSupabase, name: "Supabase" },
+  { icon: caTailwind, name: "Tailwind" },
+];
 ---
 
-<section id="tech" data-theme="light" class="relative w-full py-24 px-6 md:px-16 bg-bg">
-  <div class="max-w-6xl mx-auto">
-    <p class="font-mono text-syntax-lime text-sm mb-4">// tech</p>
-    <h2 class="font-display text-4xl md:text-5xl mb-12 text-fg">
-      <slot name="heading" />
-    </h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <slot />
+<section id="tech" data-theme="light" class="relative w-full py-24 bg-bg">
+  <div class="max-w-6xl mx-auto px-6 md:px-16">
+    <p class="font-mono text-accent-green text-sm mb-8">// tecnología</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+      <!-- Columna izquierda: título -->
+      <div>
+        <h2 class="font-display text-3xl md:text-4xl lg:text-5xl text-fg leading-tight">
+          <span class="font-bold italic text-accent-green">Ingeniería de vanguardia</span><br>
+          para la <span class="font-bold italic text-accent-green">evolución digital</span>
+        </h2>
+      </div>
+
+      <!-- Columna derecha: descripción -->
+      <div>
+        <p class="font-body text-fg-secondary text-sm md:text-base leading-loose">
+          Implementamos arquitecturas modernas y herramientas de última generación que garantizan la máxima velocidad y escalabilidad de tu software. Nuestro stack arranca optimizado con las tendencias más eficientes del mercado, combinando la ligereza de Astro y TypeScript con la potencia serverless en la nube.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carousel de logos infinito - full width -->
+  <div class="overflow-hidden relative">
+    <!-- Gradiente izquierdo -->
+    <div class="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-bg to-transparent z-10 pointer-events-none"></div>
+    
+    <!-- Gradiente derecho -->
+    <div class="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-bg to-transparent z-10 pointer-events-none"></div>
+
+    <div class="flex w-max animate-scroll py-4">
+      {[...logos, ...logos].map(({ icon: Icon, name }) => (
+        <div class="flex items-center justify-center w-60 h-30 px-22 text-fg hover:scale-125 transition-all duration-300 shrink-0">
+          <Icon class="w-full h-full object-contain" />
+        </div>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 25s linear infinite;
+  }
+</style>
