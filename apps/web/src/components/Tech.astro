@@ -16,17 +16,17 @@ import caTailwind from "../icons/caTailwind.astro";
 import caVercel from "../icons/caVercel.astro";
 
 const logos = [
-  { icon: caAstro, name: "Astro" },
-  { icon: caFirebase, name: "Firebase" },
-  { icon: caFigma, name: "Figma" },
-  { icon: caGithub, name: "GitHub" },
-  { icon: caGoogle, name: "Google" },
-  { icon: caLarabel, name: "Laravel" },
-  { icon: caVercel, name: "Vercel" },
-  { icon: caNode, name: "Node.js" },
-  { icon: caReact, name: "React" },
-  { icon: caSupabase, name: "Supabase" },
-  { icon: caTailwind, name: "Tailwind" },
+  { icon: caAstro, name: "Astro", url: "https://astro.build" },
+  { icon: caFirebase, name: "Firebase", url: "https://firebase.google.com" },
+  { icon: caFigma, name: "Figma", url: "https://figma.com" },
+  { icon: caGithub, name: "GitHub", url: "https://github.com" },
+  { icon: caGoogle, name: "Google", url: "https://cloud.google.com" },
+  { icon: caLarabel, name: "Laravel", url: "https://laravel.com" },
+  { icon: caVercel, name: "Vercel", url: "https://vercel.com" },
+  { icon: caNode, name: "Node.js", url: "https://nodejs.org" },
+  { icon: caReact, name: "React", url: "https://react.dev" },
+  { icon: caSupabase, name: "Supabase", url: "https://supabase.com" },
+  { icon: caTailwind, name: "Tailwind", url: "https://tailwindcss.com" },
 ];
 ---
 
@@ -61,10 +61,18 @@ const logos = [
     <div class="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-bg to-transparent z-10 pointer-events-none"></div>
 
     <div class="flex w-max animate-scroll py-4">
-      {[...logos, ...logos].map(({ icon: Icon, name }) => (
-        <div class="flex items-center justify-center w-60 h-30 px-22 text-fg hover:scale-125 transition-all duration-300 shrink-0">
+      {[...logos, ...logos].map(({ icon: Icon, name, url }) => (
+        <a 
+          href={url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class:list={[
+            "flex items-center justify-center w-60 h-30 px-22 text-fg hover:scale-125 transition-all duration-300 shrink-0",
+            name === "Figma" && "py-4"
+          ]}
+        >
           <Icon class="w-full h-full object-contain" />
-        </div>
+        </a>
       ))}
     </div>
   </div>
