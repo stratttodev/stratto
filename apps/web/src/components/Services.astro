@@ -2,16 +2,51 @@
 /**
  * Services — Sección de servicios
  */
+import ServicesCard from "./ServicesCard.astro";
+import icService01 from "../icons/icService01.astro";
+import icService02 from "../icons/icService02.astro";
+import icService03 from "../icons/icService03.astro";
+
+const services = [
+  {
+    title: "Ingeniería",
+    icon: icService01,
+    description: "Definimos la estrategia y construimos un plan sólido antes de comenzar. Su éxito se construye sobre una base bien pensada.",
+    highlight: "Enfoque optimizado"
+  },
+  {
+    title: "UX/UI",
+    icon: icService02,
+    description: "Diseñamos interfaces intuitivas y visualmente impecables que enamoran a los usuarios y fortalecen el posicionamiento de su marca.",
+    highlight: "Diseñamos funciones."
+  },
+  {
+    title: "DevOps",
+    icon: icService03,
+    description: "Implementamos infraestructura moderna y automatizada para que su sitio funcione sin interrupciones y genere resultados reales.",
+    highlight: "Desarrollamos resultados."
+  }
+];
 ---
 
-<section id="services" data-theme="dark" class="relative w-full py-24 px-6 md:px-16 bg-bg-secondary">
+<section id="services" data-theme="light" class="relative w-full py-24 px-6 md:px-16 bg-bg">
   <div class="max-w-6xl mx-auto">
-    <p class="font-mono text-syntax-lime text-sm mb-4">// services</p>
-    <h2 class="font-display text-4xl md:text-5xl mb-12 text-fg">
-      <slot name="heading" />
+    <p class="font-mono text-accent-green text-sm mb-4">// services</p>
+    
+    <h2 class="font-display text-3xl md:text-4xl lg:text-5xl text-fg mb-4">
+      <span class="font-bold italic">Desarrollo web integral.</span>
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <slot />
+    <p class="font-regular text-3xl md:text-4xl lg:text-5xl mb-12">Descubra nuestro enfoque único.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {services.map((service) => (
+        <ServicesCard
+          title={service.title}
+          icon={service.icon}
+          description={service.description}
+          highlight={service.highlight}
+        />
+      ))}
     </div>
   </div>
 </section>
