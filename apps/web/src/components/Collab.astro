@@ -1,7 +1,7 @@
 ---
 /**
  * Collab — Sección de colaboración
- * Card con imagen de fondo y CTA
+ * Card con imagen de fondo y CTA que abre Google Calendar Scheduling
  */
 import collabBg from "../assets/collabBg.png";
 ---
@@ -25,14 +25,17 @@ import collabBg from "../assets/collabBg.png";
               Operamos 100% digital lo que nos favorece la comunicación rápida y trabajo efectivo para cualquier punto del país.
             </p>
 
-            <!-- CTA debajo del texto -->
+            <!-- CTA — gatilla el modal de Google Calendar -->
             <div>
-              <a href="/contacto" class="inline-flex items-center gap-3 bg-accent-lime dark:bg-lime-200 text-text-fg dark:text-black font-mono font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-300">
+              <button
+                id="collab-cta"
+                class="inline-flex items-center gap-3 bg-accent-lime dark:bg-lime-200 text-text-fg dark:text-black font-mono font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-300 cursor-pointer"
+              >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
                 hablemos!
-              </a>
+              </button>
             </div>
           </div>
 
@@ -51,3 +54,132 @@ import collabBg from "../assets/collabBg.png";
     </div>
   </div>
 </section>
+
+<!-- Modal de Google Calendar Scheduling -->
+<div id="collab-scheduling-overlay" class="hidden fixed inset-0 z-[9999] bg-black/60 dark:bg-black/80 p-4 md:p-12 lg:p-18 items-center justify-center">
+  <button
+    id="collab-scheduling-close"
+    class="absolute top-6 right-6 md:top-6 md:right-9 flex items-center gap-2 bg-[#1f1f1f] dark:bg-white text-white dark:text-black rounded-full px-5 py-2.5 font-[Google_Sans,sans-serif] text-base font-medium hover:bg-black dark:hover:bg-gray-200 transition-colors duration-200 z-[10000] cursor-pointer"
+  >
+    <span class="material-icons text-lg">close</span>
+    Cerrar
+  </button>
+  <div id="collab-scheduling-frame" class="w-full h-full rounded-xl overflow-hidden border border-black/10 dark:border-white/10 bg-white dark:bg-[#1a221a] relative">
+    <!-- Loading skeleton -->
+    <div id="collab-scheduling-loader" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white dark:bg-[#1a221a]">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-lime opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-lime"></span>
+        </span>
+        <span class="font-mono text-sm text-black/40 dark:text-white/40">// cargando calendario</span>
+      </div>
+      <!-- Barra de progreso indeterminada -->
+      <div class="w-48 h-1 rounded-full bg-black/5 dark:bg-white/5 overflow-hidden">
+        <div class="h-full rounded-full bg-accent-lime/40 loading-bar"></div>
+      </div>
+    </div>
+    <iframe
+      id="collab-scheduling-iframe"
+      class="w-full h-full border-0 opacity-0 transition-opacity duration-500"
+      title="Google Calendar Scheduling"
+      sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
+    ></iframe>
+  </div>
+</div>
+
+<style>
+  @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+  #collab-scheduling-overlay {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  #collab-scheduling-overlay.is-open {
+    display: flex;
+    opacity: 1;
+  }
+
+  @keyframes loading-slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(300%); }
+  }
+  .loading-bar {
+    animation: loading-slide 1.4s ease-in-out infinite;
+    width: 40%;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var SCHEDULING_URL =
+    "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0eHNrxGAqIXYMhEF13wWhkb3Rdf-R_M3xzGoKvrfa2JdSxmmYR_9kmPHomj0h336-UgaRlcYGs?gv=true";
+
+  var overlay = document.getElementById("collab-scheduling-overlay");
+  var iframe = document.getElementById("collab-scheduling-iframe");
+  var frame = document.getElementById("collab-scheduling-frame");
+  var loader = document.getElementById("collab-scheduling-loader");
+  var closeBtn = document.getElementById("collab-scheduling-close");
+  var cta = document.getElementById("collab-cta");
+
+  function isDarkMode() {
+    return document.documentElement.classList.contains("dark");
+  }
+
+  function applyTheme() {
+    var dark = isDarkMode();
+    iframe.style.colorScheme = dark ? "dark" : "light";
+    frame.style.borderColor = dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
+    frame.style.backgroundColor = dark ? "#1a221a" : "#ffffff";
+  }
+
+  function showLoader() {
+    loader.style.opacity = "1";
+    loader.style.pointerEvents = "auto";
+    iframe.style.opacity = "0";
+  }
+
+  function hideLoader() {
+    loader.style.opacity = "0";
+    loader.style.pointerEvents = "none";
+    iframe.style.opacity = "1";
+  }
+
+  function openModal() {
+    applyTheme();
+    showLoader();
+    iframe.src = SCHEDULING_URL;
+    overlay.classList.remove("hidden");
+    void overlay.offsetHeight;
+    overlay.classList.add("is-open");
+  }
+
+  function closeModal() {
+    overlay.classList.remove("is-open");
+    setTimeout(function () {
+      overlay.classList.add("hidden");
+      iframe.src = "";
+      showLoader();
+    }, 300);
+  }
+
+  iframe.addEventListener("load", function () {
+    if (iframe.src) hideLoader();
+  });
+
+  var observer = new MutationObserver(function () {
+    if (overlay.classList.contains("is-open")) applyTheme();
+  });
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  cta.addEventListener("click", openModal);
+  closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+})();
+</script>
