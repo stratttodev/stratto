@@ -1,17 +1,10 @@
 ---
-/**
- * Contact — Página de contacto
- */
 import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import ContactForm from "../components/ContactForm";
 ---
 
 <Layout title="Contacto — STRATTO">
-  <main class="min-h-screen bg-bg flex items-center justify-center px-6">
-    <div class="max-w-2xl text-center">
-      <p class="font-mono text-accent-green text-sm mb-4">// contacto</p>
-      <h1 class="font-display text-4xl md:text-5xl text-fg mb-6">Trabajemos Juntos</h1>
-      <p class="font-body text-fg-secondary mb-8">Próximamente</p>
-      <a href="/" class="font-mono text-accent-green hover:underline">← Volver al inicio</a>
-    </div>
-  </main>
+  <Navbar />
+  <ContactForm client:load />
 </Layout>

@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  output: "static", // landing institucional: estática por defecto, islas solo donde hace falta
+  output: "static", // landing institucional: estática por defecto, islas + API routes vía Vercel adapter
   adapter: vercel(),
   integrations: [react()],
   vite: {
