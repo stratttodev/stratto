@@ -35,10 +35,10 @@ const navLinks = [
     <!-- Content -->
     <div class="relative z-10 flex items-center justify-between w-full">
       <!-- Left: Isotype + Logo -->
-      <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3" style="view-transition-name: nav-logo">
         <Isotype class="w-6 h-6" />
         <LetterLogo class="h-5 w-auto" />
-      </div>
+      </a>
 
       <!-- Center: Nav Links (hidden by default, shown when menu open) -->
       <nav
@@ -123,7 +123,9 @@ const navLinks = [
   };
 
   let currentAppliedTheme: "dark" | "light" | "reset" = "reset";
-  let isDarkMode = html.classList.contains("dark");
+  let isDarkMode = localStorage.getItem('stratto-theme')
+    ? localStorage.getItem('stratto-theme') === 'dark'
+    : html.classList.contains("dark");
 
   function updateSvgClasses(el: SVGElement, classes: string[]) {
     const current = el.getAttribute("class") || "";
@@ -190,12 +192,19 @@ const navLinks = [
 
     navbarBg.classList.remove("opacity-100");
     navbarBg.classList.add("opacity-0");
+    navbarBg.className = navbarBg.className.replace(/bg-\S+/g, "");
 
     navbarInner.className = navbarInner.className.replace(/text-\S+/g, "");
-    navbarInner.classList.add("text-pixel-clean");
 
-    updateIcons("dark");
-    updateTextSpans("dark");
+    const isContacto = window.location.pathname === "/contacto";
+    const mode = isContacto
+      ? (html.classList.contains("dark") ? "dark" : "light")
+      : "dark";
+
+    navbarInner.classList.add(textColors[mode]);
+
+    updateIcons(mode);
+    updateTextSpans(mode);
   }
 
   function updateToggleIcon() {
@@ -322,6 +331,7 @@ const navLinks = [
   toggleBtn?.addEventListener("click", () => {
     isDarkMode = !isDarkMode;
     html.classList.toggle("dark", isDarkMode);
+    localStorage.setItem('stratto-theme', isDarkMode ? 'dark' : 'light');
     updateToggleIcon();
 
     const scrolled = window.scrollY > SCROLL_THRESHOLD;
@@ -329,6 +339,8 @@ const navLinks = [
       currentAppliedTheme = "reset";
       const theme = getCurrentSectionTheme();
       applyNavbarStyle(theme);
+    } else {
+      resetNavbar();
     }
   });
 
