@@ -33,9 +33,9 @@ const navLinks = [
     ></div>
 
     <!-- Content -->
-    <div class="relative z-10 flex items-center justify-between w-full">
+    <div class="relative z-10 flex items-center justify-between w-full" role="banner">
       <!-- Left: Isotype + Logo -->
-      <a href="/" class="flex items-center gap-3" style="view-transition-name: nav-logo">
+        <a href="/" class="flex items-center gap-3" style="view-transition-name: nav-logo" aria-label="Stratto — Ir al inicio">
         <Isotype class="w-6 h-6" />
         <LetterLogo class="h-5 w-auto" />
       </a>
@@ -44,6 +44,7 @@ const navLinks = [
       <nav
         id="nav-links"
         class="hidden md:flex items-center gap-8 font-mono text-xs opacity-0 pointer-events-none -translate-y-2.5 transition-all duration-300"
+        aria-label="Navegación principal"
       >
         {navLinks.map(({ label, href }) => (
           <a
@@ -58,7 +59,7 @@ const navLinks = [
 
       <!-- Right: Icons + /labs -->
       <div class="flex items-center gap-5">
-        <button id="menu-toggle" class="cursor-pointer relative w-5 h-5" aria-label="Toggle menu">
+        <button id="menu-toggle" class="cursor-pointer relative w-5 h-5" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-menu">
           <span id="icon-menu-plus" class="absolute inset-0 transition-all duration-300 ease-in-out"><MenuPlus class="cursor-pointer w-5 h-5" /></span>
           <span id="icon-menu" class="absolute inset-0 transition-all duration-300 ease-in-out opacity-0 scale-50"><Menu class="cursor-pointer w-5 h-5" /></span>
         </button>
@@ -73,10 +74,13 @@ const navLinks = [
   </nav>
 </div>
 
-<!-- Mobile Menu Overlay -->
+  <!-- Mobile Menu Overlay -->
 <div
   id="mobile-menu"
   class="md:hidden fixed inset-0 z-40 flex items-center justify-center bg-bg/95 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 ease-in-out"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú de navegación"
 >
   <nav class="flex flex-col items-center gap-10">
     {navLinks.map(({ label, href }, index) => (
@@ -223,6 +227,8 @@ const navLinks = [
 
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
+    menuToggle?.setAttribute("aria-expanded", String(isMenuOpen));
+    menuToggle?.setAttribute("aria-label", isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación");
 
     // Swap icons: open = Menu, closed = MenuPlus
     if (iconMenuPlus && iconMenu) {
@@ -315,6 +321,13 @@ const navLinks = [
   window.addEventListener("scroll", updateScrollState, { passive: true });
 
   menuToggle?.addEventListener("click", toggleMenu);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isMenuOpen) {
+      toggleMenu();
+      menuToggle?.focus();
+    }
+  });
 
   navLinks?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
