@@ -75,6 +75,13 @@ function DualRange({
       <div
         ref={trackRef}
         className="relative w-full h-8 flex items-center cursor-pointer touch-none select-none"
+        role="slider"
+        aria-label={labels[0] ? `Rango de ${labels[0]} a ${labels[labels.length - 1]}` : "Selector de rango"}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={lo}
+        aria-valuetext={`${labels[lo]} a ${labels[hi]}`}
+        tabIndex={0}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -266,14 +273,18 @@ export default function ContactForm() {
         ¿Cómo se llama tu <span className="font-bold italic">empresa o proyecto</span>?
       </h2>
       <p className="font-body text-sm mb-10" style={{ color: t.fgMuted }}>Un nombre, una idea, lo que tengas.</p>
-      <input
-        type="text" value={empresa} onChange={(e) => setEmpresa(e.target.value)}
-        placeholder="Mi Startup, Proyecto X..." autoFocus={step === 1}
-        className="contact-input w-full bg-transparent font-body text-lg md:text-xl py-3 outline-none transition-colors"
-        style={{ borderBottom: `2px solid ${t.borderInput}`, color: t.fg }}
-        onFocus={(e) => { e.currentTarget.style.borderBottomColor = t.accent; }}
-        onBlur={(e) => { e.currentTarget.style.borderBottomColor = t.borderInput; }}
-      />
+      <label htmlFor="empresa" className="block">
+        <span className="sr-only">Nombre de tu empresa o proyecto</span>
+        <input
+          id="empresa"
+          type="text" value={empresa} onChange={(e) => setEmpresa(e.target.value)}
+          placeholder="Mi Startup, Proyecto X..." autoFocus={step === 1}
+          className="contact-input w-full bg-transparent font-body text-lg md:text-xl py-3 outline-none transition-colors"
+          style={{ borderBottom: `2px solid ${t.borderInput}`, color: t.fg }}
+          onFocus={(e) => { e.currentTarget.style.borderBottomColor = t.accent; }}
+          onBlur={(e) => { e.currentTarget.style.borderBottomColor = t.borderInput; }}
+        />
+      </label>
     </div>,
 
     /* 2: Soluciones */
@@ -283,13 +294,14 @@ export default function ContactForm() {
         ¿Qué <span className="font-bold italic">solución</span> necesitas?
       </h2>
       <p className="font-body text-sm mb-10" style={{ color: t.fgMuted }}>Selecciona todas las que apliquen.</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3" role="group" aria-label="Soluciones disponibles">
         {SOLUCIONES.map(({ label, icon: Icon }) => {
           const active = soluciones.includes(label);
           return (
             <button
               key={label} type="button" onClick={() => toggleSolucion(label)}
               className="flex items-center gap-2 px-4 py-3 rounded-lg font-body text-sm text-left transition-all duration-200"
+              aria-pressed={active}
               style={{
                 border: `1px solid ${active ? t.accent : t.border}`,
                 backgroundColor: active ? `${t.accent}14` : "transparent",
@@ -330,14 +342,18 @@ export default function ContactForm() {
         ¿Cuál es tu <span className="font-bold italic">email</span> de contacto?
       </h2>
       <p className="font-body text-sm mb-10" style={{ color: t.fgMuted }}>Para que te contactemos de vuelta.</p>
-      <input
-        type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-        placeholder="hola@tuempresa.com" autoFocus={step === 4}
-        className="contact-input w-full bg-transparent font-body text-lg md:text-xl py-3 outline-none transition-colors"
-        style={{ borderBottom: `2px solid ${!email ? t.borderInput : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? t.accent : "#ef4444"}`, color: t.fg }}
-        onFocus={(e) => { if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.currentTarget.style.borderBottomColor = t.accent; }}
-        onBlur={(e) => { if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.currentTarget.style.borderBottomColor = email ? "#ef4444" : t.borderInput; }}
-      />
+      <label htmlFor="email" className="block">
+        <span className="sr-only">Email de contacto</span>
+        <input
+          id="email"
+          type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+          placeholder="hola@tuempresa.com" autoFocus={step === 4}
+          className="contact-input w-full bg-transparent font-body text-lg md:text-xl py-3 outline-none transition-colors"
+          style={{ borderBottom: `2px solid ${!email ? t.borderInput : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? t.accent : "#ef4444"}`, color: t.fg }}
+          onFocus={(e) => { if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.currentTarget.style.borderBottomColor = t.accent; }}
+          onBlur={(e) => { if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.currentTarget.style.borderBottomColor = email ? "#ef4444" : t.borderInput; }}
+        />
+      </label>
       {email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && (
         <p className="font-mono text-xs mt-3" style={{ color: "#ef4444" }}>
           {!email.includes("@") ? "Falta el @ — ejemplo: hola@empresa.com"

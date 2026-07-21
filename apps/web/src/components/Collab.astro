@@ -56,7 +56,7 @@ import collabBg from "../assets/collabBg.png";
 </section>
 
 <!-- Modal de Google Calendar Scheduling -->
-<div id="collab-scheduling-overlay" class="hidden fixed inset-0 z-9999 bg-black/60 dark:bg-black/80 p-4 md:p-12 lg:p-18 items-center justify-center">
+<div id="collab-scheduling-overlay" class="hidden fixed inset-0 z-9999 bg-black/60 dark:bg-black/80 p-4 md:p-12 lg:p-18 items-center justify-center" role="dialog" aria-modal="true" aria-label="Agendar reunión con Google Calendar">
   <button
     id="collab-scheduling-close"
     class="absolute top-6 right-6 md:top-6 md:right-9 flex items-center gap-2 bg-[#1f1f1f] dark:bg-white text-white dark:text-black rounded-full px-5 py-2.5 font-[Google_Sans,sans-serif] text-base font-medium hover:bg-black dark:hover:bg-gray-200 transition-colors duration-200 z-10000 cursor-pointer"
@@ -180,6 +180,13 @@ import collabBg from "../assets/collabBg.png";
   closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && overlay.classList.contains("is-open")) {
+      closeModal();
+      cta.focus();
+    }
   });
 })();
 </script>
