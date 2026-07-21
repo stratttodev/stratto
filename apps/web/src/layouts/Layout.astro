@@ -34,12 +34,12 @@ const ogImage = new URL("/ogImage.png", Astro.site).href;
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={resolvedCanonical} />
-    <title>{title} · STRATTO</title>
+    <title>{title}</title>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={resolvedCanonical} />
-    <meta property="og:title" content={`${title} · STRATTO`} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="es_CL" />
@@ -47,7 +47,7 @@ const ogImage = new URL("/ogImage.png", Astro.site).href;
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} · STRATTO`} />
+    <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
