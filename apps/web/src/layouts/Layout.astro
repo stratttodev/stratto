@@ -45,5 +45,9 @@ const {
     <slot />
     <Analytics />
     <SpeedInsights />
+    <script>
+      import { initScrollAnimations } from "../scripts/scroll-animations";
+      document.addEventListener("DOMContentLoaded", initScrollAnimations);
+    </script>
   </body>
 </html>

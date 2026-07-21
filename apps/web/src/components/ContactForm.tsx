@@ -189,16 +189,21 @@ export default function ContactForm() {
     setStep((s) => s - 1);
   }, [isSubmitting]);
 
+  const goNextRef = useRef(goNext);
+  const goPrevRef = useRef(goPrev);
+  goNextRef.current = goNext;
+  goPrevRef.current = goPrev;
+
   useEffect(() => {
     const handle = (e: KeyboardEvent) => {
       if (isSubmitting || submitted) return;
       if (document.activeElement?.getAttribute("type") === "range") return;
-      if (e.key === "Enter") { e.preventDefault(); goNext(); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); goPrev(); }
+      if (e.key === "Enter") { e.preventDefault(); goNextRef.current(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goPrevRef.current(); }
     };
     window.addEventListener("keydown", handle);
     return () => window.removeEventListener("keydown", handle);
-  }, [goNext, goPrev, isSubmitting, submitted]);
+  }, [isSubmitting, submitted]);
 
   const toggleSolucion = (label: string) => {
     setSoluciones((p) => p.includes(label) ? p.filter((x) => x !== label) : [...p, label]);
