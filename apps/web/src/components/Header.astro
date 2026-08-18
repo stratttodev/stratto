@@ -4,16 +4,19 @@
  * Texto rotativo sobre fondo oscuro
  * Se comprime al scroll para revelar siguiente sección
  */
+import { DitherBackground } from "./DitherBackground";
 ---
 
 <header
   id="site-header"
   data-theme="dark"
-  class="relative w-full min-h-screen bg-terminal-black flex flex-col justify-between px-6 py-10 md:px-16 md:py-16 transition-all duration-700 ease-in-out"
+  class="relative w-full min-h-screen bg-terminal-black flex flex-col justify-between px-6 py-10 md:px-16 md:py-16 transition-all duration-700 ease-in-out overflow-hidden"
 >
-  <div></div>
+  <DitherBackground client:idle />
 
-  <section class="max-w-3xl gap-4 flex flex-col">
+  <div class="relative z-10"></div>
+
+  <section class="relative z-10 max-w-3xl gap-4 flex flex-col">
     <p data-animate="hero-label" class="font-mono text-syntax-lime text-sm mb-4" style="opacity: 0;">// vender tecnología es ir al día en ella</p>
     <h1 data-animate="hero-title" class="font-display text-4xl md:text-7xl leading-snug mb-6 text-pixel-clean" style="opacity: 0;">
       <span class="italic bg-syntax-lime text-terminal-black px-2 inline-block tracking-tight">
@@ -28,7 +31,7 @@
     </p>
   </section>
 
-  <footer data-animate="hero-footer" class="font-mono text-xs text-pixel-clean/50" style="opacity: 0;">
+  <footer data-animate="hero-footer" class="relative z-10 font-mono text-xs text-pixel-clean/50" style="opacity: 0;">
     scrollear para descubrir más
   </footer>
 </header>
