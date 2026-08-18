@@ -93,7 +93,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     // 1. Notificación interna para el equipo
     await resend.emails.send({
-      from: "Stratto Forms <no-reply@stratto.dev>",
+      from: "Stratto <hello@stratto.dev>",
       to: ["hello@stratto.dev"],
       replyTo: email,
       subject: `🚀 [Nuevo Lead] // ${projectName}`,
