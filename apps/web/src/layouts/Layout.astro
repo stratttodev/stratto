@@ -77,6 +77,10 @@ const ogImage = new URL("/ogImage.png", Astro.site).href;
         var t = localStorage.getItem('stratto-theme');
         if (t === 'light') document.documentElement.classList.remove('dark');
         else document.documentElement.classList.add('dark');
+
+        if (window.location.hostname === 'contact.stratto.dev') {
+          document.documentElement.classList.add('is-contact-host');
+        }
       })();
     </script>
   </head>

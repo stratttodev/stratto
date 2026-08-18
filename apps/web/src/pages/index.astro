@@ -51,14 +51,7 @@ import ContactForm from "../components/ContactForm";
 
   <script is:inline>
     (function () {
-      var isContact = window.location.hostname === "contact.stratto.dev";
-      var landing = document.getElementById("landing-view");
-      var contact = document.getElementById("contact-view");
-      if (isContact) {
-        if (landing) landing.style.display = "none";
-        if (contact) contact.style.display = "block";
-        document.documentElement.classList.add("is-contact-host");
-
+      if (document.documentElement.classList.contains("is-contact-host")) {
         document.title = "Stratto // Contacto & Brief";
         var canonical = document.querySelector('link[rel="canonical"]');
         if (canonical) canonical.setAttribute("href", "https://contact.stratto.dev/");

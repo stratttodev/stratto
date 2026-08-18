@@ -89,3 +89,7 @@ html {
     animation: none;
   }
 }
+
+/* Host-based routing: contact.stratto.dev */
+.is-contact-host #landing-view { display: none !important; }
+.is-contact-host #contact-view { display: block !important; }
