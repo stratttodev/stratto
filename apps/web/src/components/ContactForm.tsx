@@ -1,8 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import {
-  Globe, Laptop, Cart, Layout, Mobile,
-  Palette, Brush2, Chat, Server, CpuBolt,
-} from "reicon-react";
 
 const STEPS = [
   { id: "intro" },
@@ -10,19 +6,28 @@ const STEPS = [
   { id: "soluciones" },
   { id: "presupuesto" },
   { id: "email" },
+  { id: "success" },
 ] as const;
 
-const SOLUCIONES: { label: string; icon: typeof Globe }[] = [
-  { label: "Landing Page", icon: Globe },
-  { label: "Web App", icon: Laptop },
-  { label: "E-Commerce", icon: Cart },
-  { label: "SaaS / Panel", icon: Layout },
-  { label: "App Móvil", icon: Mobile },
-  { label: "UI/UX Design", icon: Palette },
-  { label: "Branding", icon: Brush2 },
-  { label: "Consultoría", icon: Chat },
-  { label: "DevOps / Infra", icon: Server },
-  { label: "AI / ML", icon: CpuBolt },
+function Icon({ d, size = 18, color = "currentColor" }: { d: string; size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d={d} fill={color} />
+    </svg>
+  );
+}
+
+const SOLUCIONES: { label: string; path: string }[] = [
+  { label: "Landing Page", path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" },
+  { label: "Web App", path: "M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" },
+  { label: "E-Commerce", path: "M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" },
+  { label: "SaaS / Panel", path: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" },
+  { label: "App Móvil", path: "M15.5 1h-8C6.12 1 5 2.12 5 3.5v17C5 21.88 6.12 23 7.5 23h8c1.38 0 2.5-1.12 2.5-2.5v-17C18 2.12 16.88 1 15.5 1zm-4 21c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5-4H7V4h9v14z" },
+  { label: "UI/UX Design", path: "M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0112 22zm0-18c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5a.54.54 0 00-.14-.35c-.41-.46-.63-1.05-.63-1.65a2.5 2.5 0 012.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7z" },
+  { label: "Branding", path: "M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z" },
+  { label: "Consultoría", path: "M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z" },
+  { label: "DevOps / Infra", path: "M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" },
+  { label: "AI / ML", path: "M21 11.18V9l-1.25-.61-1.75-3.5-1.25-.88V4h-1v.31l-1.5 1.09L13.18 4H12v.5l1.5 1.09L12 6.5V8h1V6.56l1.25-.61L15.5 4.5 16.75 4h1.25l1.5 1.09V6.5h1V5.09l1.25.88 1.25.61v2.18l-1.25.61-1.5 1.09V12h1v-1.09l1.25-.61L22.5 9l1.25-.88V6.5l-2.75 4.68zM9.5 7.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM16 17H8v-2h2.5c.28 0 .5-.22.5-.5v-1c0-.28-.22-.5-.5-.5H7v-2h4c.55 0 1 .45 1 1v1.5c0 .28-.22.5-.5.5H7v2h9z" },
 ];
 
 const MONEY = ["$1.000", "$5.000", "$10.000", "$25.000", "$50.000", "$100.000+"];
@@ -145,20 +150,35 @@ export default function ContactForm() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [csrfToken, setCsrfToken] = useState("");
+
+  useEffect(() => {
+    fetch("/api/csrf-token", { method: "GET" })
+      .then((r) => r.json())
+      .then((data) => setCsrfToken(data.csrfToken))
+      .catch(() => {});
+  }, []);
 
   const stepRef = useRef(step);
   stepRef.current = step;
 
+  const empresaRef = useRef(empresa);
+  empresaRef.current = empresa;
+  const solucionesRef = useRef(soluciones);
+  solucionesRef.current = soluciones;
+  const emailRef = useRef(email);
+  emailRef.current = email;
+
   const isValid = useCallback(() => {
     switch (stepRef.current) {
       case 0: return true;
-      case 1: return empresa.trim().length > 0;
-      case 2: return soluciones.length > 0;
+      case 1: return empresaRef.current.trim().length > 0;
+      case 2: return solucionesRef.current.length > 0;
       case 3: return true;
-      case 4: return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      case 4: return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRef.current);
       default: return false;
     }
-  }, [empresa, soluciones, email]);
+  }, []);
 
   const handleSubmit = useCallback(async () => {
     setIsSubmitting(true);
@@ -167,6 +187,7 @@ export default function ContactForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          csrfToken,
           empresa,
           soluciones,
           presupuesto: `${MONEY[presupuesto[0]]} – ${MONEY[presupuesto[1]]} (USD)`,
@@ -174,21 +195,24 @@ export default function ContactForm() {
           email,
         }),
       });
-      if (res.ok) setSubmitted(true);
-      else alert("Hubo un error al enviar. Intenta de nuevo.");
+      if (res.ok) {
+        setDirection("forward");
+        setStep(5);
+        setSubmitted(true);
+      } else alert("Hubo un error al enviar. Intenta de nuevo.");
     } catch {
       alert("Error de conexión. Intenta de nuevo.");
     } finally {
       setIsSubmitting(false);
     }
-  }, [empresa, soluciones, presupuesto, plazo, email]);
+  }, [csrfToken, empresa, soluciones, presupuesto, plazo, email]);
 
   const goNext = useCallback(() => {
-    if (!isValid() || isSubmitting) return;
-    if (stepRef.current === STEPS.length - 1) { handleSubmit(); return; }
+    if (!isValid() || isSubmitting || submitted) return;
+    if (stepRef.current === STEPS.length - 2) { handleSubmit(); return; }
     setDirection("forward");
     setStep((s) => s + 1);
-  }, [isValid, isSubmitting, handleSubmit]);
+  }, [isValid, isSubmitting, submitted, handleSubmit]);
 
   const goPrev = useCallback(() => {
     if (stepRef.current === 0 || isSubmitting) return;
@@ -196,54 +220,26 @@ export default function ContactForm() {
     setStep((s) => s - 1);
   }, [isSubmitting]);
 
-  const goNextRef = useRef(goNext);
-  const goPrevRef = useRef(goPrev);
-  goNextRef.current = goNext;
-  goPrevRef.current = goPrev;
-
   useEffect(() => {
     const handle = (e: KeyboardEvent) => {
       if (isSubmitting || submitted) return;
       if (document.activeElement?.getAttribute("type") === "range") return;
-      if (e.key === "Enter") { e.preventDefault(); goNextRef.current(); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); goPrevRef.current(); }
+      if (e.key === "Enter") { e.preventDefault(); goNext(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); goPrev(); }
     };
     window.addEventListener("keydown", handle);
     return () => window.removeEventListener("keydown", handle);
-  }, [isSubmitting, submitted]);
+  }, [isSubmitting, submitted, goNext, goPrev]);
 
   const toggleSolucion = (label: string) => {
     setSoluciones((p) => p.includes(label) ? p.filter((x) => x !== label) : [...p, label]);
   };
 
   const t = dark
-    ? { bg: "#000000", bgCard: "#0a0f0a", fg: "#dff4e0", fgMuted: "rgba(223,244,224,0.45)", fgDim: "rgba(223,244,224,0.15)", accent: "#00DA9D", border: "rgba(223,244,224,0.12)", borderInput: "rgba(223,244,224,0.15)" }
-    : { bg: "#ffffff", bgCard: "#f7fffd", fg: "#1a1a1a", fgMuted: "rgba(26,26,26,0.5)", fgDim: "rgba(26,26,26,0.1)", accent: "#00DA9D", border: "rgba(26,26,26,0.12)", borderInput: "rgba(26,26,26,0.2)" };
+    ? { bg: "#202920", bgCard: "#1a231a", fg: "#dff4e0", fgMuted: "rgba(223,244,224,0.45)", fgDim: "rgba(223,244,224,0.15)", accent: "#CDFF00", border: "rgba(223,244,224,0.12)", borderInput: "rgba(223,244,224,0.15)" }
+    : { bg: "#ffffff", bgCard: "#f7fffd", fg: "#1a1a1a", fgMuted: "rgba(26,26,26,0.5)", fgDim: "rgba(26,26,26,0.1)", accent: "#CDFF00", border: "rgba(26,26,26,0.12)", borderInput: "rgba(26,26,26,0.2)" };
 
-  const progressPct = ((step + 1) / STEPS.length) * 100;
-
-  if (submitted) {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center z-50" style={{ backgroundColor: t.bg }}>
-        <div className="max-w-lg w-full px-8 text-center">
-          <div className="border rounded-lg p-8 text-left" style={{ borderColor: `${t.accent}4D`, backgroundColor: t.bgCard }}>
-            <p className="font-mono text-sm mb-2" style={{ color: t.accent }}>$ ./proyecto-enviado.sh</p>
-            <p className="font-mono text-xs mb-6" style={{ color: t.fgDim }}>exit status: 0</p>
-            <h2 className="font-display font-bold italic text-2xl md:text-3xl mb-4" style={{ color: t.fg }}>Datos recibidos con éxito</h2>
-            <p className="font-body text-sm leading-relaxed mb-6" style={{ color: t.fgMuted }}>
-              Gracias, esperamos con ansias el día en que tu proyecto cobre vida. Te contactaremos pronto.
-            </p>
-            <div className="pt-4" style={{ borderTop: `1px solid ${t.accent}33` }}>
-              <p className="font-mono text-xs" style={{ color: `${t.accent}66` }}>
-                stratto@labs:~$<span className="cursor-blink ml-1">_</span>
-              </p>
-            </div>
-          </div>
-          <a href="/" className="block mt-6 font-mono text-sm" style={{ color: t.accent }}>← Volver al inicio</a>
-        </div>
-      </div>
-    );
-  }
+  const progressPct = submitted ? 100 : ((step + 1) / STEPS.length) * 100;
 
   const stepContent = [
     /* 0: Intro */
@@ -294,8 +290,8 @@ export default function ContactForm() {
         ¿Qué <span className="font-bold italic">solución</span> necesitas?
       </h2>
       <p className="font-body text-sm mb-10" style={{ color: t.fgMuted }}>Selecciona todas las que apliquen.</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3" role="group" aria-label="Soluciones disponibles">
-        {SOLUCIONES.map(({ label, icon: Icon }) => {
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3" role="group" aria-label="Soluciones disponibles">
+        {SOLUCIONES.map(({ label, path }) => {
           const active = soluciones.includes(label);
           return (
             <button
@@ -308,7 +304,7 @@ export default function ContactForm() {
                 color: active ? t.accent : t.fgMuted,
               }}
             >
-              <Icon size={18} color={active ? t.accent : t.fgMuted} weight="Outline" />
+              <Icon d={path} size={18} color={active ? t.accent : t.fgMuted} />
               <span className="font-display font-bold italic text-sm">{label}</span>
             </button>
           );
@@ -362,6 +358,30 @@ export default function ContactForm() {
         </p>
       )}
     </div>,
+
+    /* 5: Success */
+    <div key="success" className="w-full max-w-2xl text-center">
+      <p className="font-mono text-sm mb-4" style={{ color: t.accent }}>$ ./proyecto-enviado.sh</p>
+      <p className="font-mono text-xs mb-6" style={{ color: t.fgDim }}>exit status: 0</p>
+      <h2 className="font-display text-3xl md:text-4xl lg:text-5xl mb-4 leading-tight" style={{ color: t.fg }}>
+        <span className="font-bold italic">Datos</span> recibidos con éxito
+      </h2>
+      <p className="font-body text-sm leading-relaxed mb-10 max-w-md mx-auto" style={{ color: t.fgMuted }}>
+        Gracias, esperamos con ansias el día en que tu proyecto cobre vida. Te contactaremos pronto.
+      </p>
+      <div className="pt-6 mb-8" style={{ borderTop: `1px solid ${t.accent}33` }}>
+        <p className="font-mono text-xs" style={{ color: `${t.accent}66` }}>
+          stratto@labs:~$<span className="cursor-blink ml-1">_</span>
+        </p>
+      </div>
+      <a
+        href="/"
+        className="font-mono text-sm px-8 py-3 rounded-full inline-block"
+        style={{ backgroundColor: t.accent, color: "#000000" }}
+      >
+        ← Volver al inicio
+      </a>
+    </div>,
   ];
 
   return (
@@ -382,19 +402,17 @@ export default function ContactForm() {
 
       <div className="absolute top-16 left-0 w-full text-center z-10">
         <span className="font-mono text-xs" style={{ color: t.fgDim }}>
-          {String(step + 1).padStart(2, "0")} / {String(STEPS.length).padStart(2, "0")}
+          {String(Math.min(step + 1, STEPS.length - 1)).padStart(2, "0")} / {String(STEPS.length - 1).padStart(2, "0")}
         </span>
       </div>
 
       <div className="relative flex-1 flex items-center justify-center px-6 md:px-12">
         {stepContent.map((content, i) => {
           const isActive = i === step;
-          const isPast = i < step;
-          const isFuture = i > step;
 
           let tx = "0%";
-          if (isPast) tx = "-100%";
-          if (isFuture) tx = "100%";
+          if (i < step) tx = "-100%";
+          if (i > step) tx = "100%";
 
           return (
             <div
@@ -413,35 +431,37 @@ export default function ContactForm() {
         })}
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full px-6 md:px-12 pb-8 md:pb-12 flex items-center justify-between z-10">
-        <div className="flex items-center gap-3">
-          <button
-            type="button" onClick={goPrev}
-            className="font-mono text-sm transition-opacity duration-200"
-            style={{ opacity: step === 0 ? 0 : 0.6, color: t.fg, pointerEvents: step === 0 ? "none" : "auto" }}
-          >
-            ← Atrás
-          </button>
-          {step > 0 && <span className="font-mono text-xs" style={{ color: t.fgDim }}>←</span>}
-        </div>
-
-        {step > 0 && (
+      {!submitted && (
+        <div className="absolute bottom-0 left-0 w-full px-6 md:px-12 pb-8 md:pb-12 flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs" style={{ color: t.fgDim }}>Enter</span>
             <button
-              type="button" onClick={goNext} disabled={!isValid() || isSubmitting}
-              className="font-mono text-sm px-6 py-3 rounded-full transition-all duration-200"
-              style={{
-                backgroundColor: isValid() && !isSubmitting ? t.accent : t.border,
-                color: isValid() && !isSubmitting ? "#000000" : t.fgDim,
-                cursor: isValid() && !isSubmitting ? "pointer" : "not-allowed",
-              }}
+              type="button" onClick={goPrev}
+              className="font-mono text-sm transition-opacity duration-200"
+              style={{ opacity: step === 0 ? 0 : 0.6, color: t.fg, pointerEvents: step === 0 ? "none" : "auto" }}
             >
-              {isSubmitting ? "Enviando..." : step === STEPS.length - 1 ? "Enviar Proyecto 🚀" : "Siguiente →"}
+              ← Atrás
             </button>
+            {step > 0 && <span className="font-mono text-xs" style={{ color: t.fgDim }}>←</span>}
           </div>
-        )}
-      </div>
+
+          {step > 0 && (
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs" style={{ color: t.fgDim }}>Enter</span>
+              <button
+                type="button" onClick={goNext} disabled={!isValid() || isSubmitting}
+                className="font-mono text-sm px-6 py-3 rounded-full transition-all duration-200"
+                style={{
+                  backgroundColor: isValid() && !isSubmitting ? t.accent : t.border,
+                  color: isValid() && !isSubmitting ? "#000000" : t.fgDim,
+                  cursor: isValid() && !isSubmitting ? "pointer" : "not-allowed",
+                }}
+              >
+                {isSubmitting ? "Enviando..." : step === STEPS.length - 2 ? "Enviar Proyecto 🚀" : "Siguiente →"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

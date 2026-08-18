@@ -12,8 +12,5 @@ export default defineConfig({
   site: "https://stratto.dev",
   vite: {
     plugins: [tailwindcss()],
-    optimizeDeps: {
-      include: ["reicon-react"],
-    },
   },
 });
