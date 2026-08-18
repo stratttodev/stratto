@@ -65,9 +65,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-      reicon-react:
-        specifier: ^1.2.0
-        version: 1.2.0(react@18.3.1)
       resend:
         specifier: ^6.20.0
         version: 6.20.0
@@ -2240,11 +2237,6 @@ packages:
 
   regex@6.1.0:
     resolution: {integrity: sha512-6VwtthbV4o/7+OaAF9I5L5V3llLEsoPyq9P1JVXkedTP33c7MfCG0/5NOPcSJn0TzXcG9YUrR0gQSWioew3LDg==}
-
-  reicon-react@1.2.0:
-    resolution: {integrity: sha512-1+6kKPSJPnNHYcA9rEbUVMpzKSXJuJPVHEkIo6l6DQnhNnEEpBXBn/XgBqEFniokMyXy+sitLv7vVpQ/xsJ26Q==}
-    peerDependencies:
-      react: '>=16.8.0'
 
   request-light@0.5.8:
     resolution: {integrity: sha512-3Zjgh+8b5fhRJBQZoy+zbVKpAQGLyka0MPgW3zruTF4dFFJ8Fqcfu9YsAvi/rvdcaTeWG3MkbZv4WKxAn/84Lg==}
@@ -4734,10 +4726,6 @@ snapshots:
   regex@6.1.0:
     dependencies:
       regex-utilities: 2.3.0
-
-  reicon-react@1.2.0(react@18.3.1):
-    dependencies:
-      react: 18.3.1
 
   request-light@0.5.8: {}
 
