@@ -20,16 +20,26 @@ function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
+const ALLOWED_HOSTS = ["stratto.dev", "contact.stratto.dev"];
+
 function validateCsrf(request: Request, cookies: { get: (name: string) => { value: string } | undefined }): boolean {
   const origin = request.headers.get("origin");
   const referer = request.headers.get("referer");
   const host = request.headers.get("host");
 
+  if (!host || !ALLOWED_HOSTS.includes(host)) return false;
+
   let originValid = false;
   if (origin) {
-    try { originValid = new URL(origin).host === host; } catch { return false; }
+    try {
+      const originHost = new URL(origin).host;
+      originValid = ALLOWED_HOSTS.includes(originHost);
+    } catch { return false; }
   } else if (referer) {
-    try { originValid = new URL(referer).host === host; } catch { return false; }
+    try {
+      const refererHost = new URL(referer).host;
+      originValid = ALLOWED_HOSTS.includes(refererHost);
+    } catch { return false; }
   }
 
   if (!originValid) return false;

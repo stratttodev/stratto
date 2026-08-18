@@ -200,7 +200,7 @@ const navLinks = [
 
     navbarInner.className = navbarInner.className.replace(/text-\S+/g, "");
 
-    const isContacto = window.location.pathname === "/contacto";
+    const isContacto = window.location.pathname === "/contacto" || window.location.hostname === "contact.stratto.dev";
     const mode = isContacto
       ? (html.classList.contains("dark") ? "dark" : "light")
       : "dark";

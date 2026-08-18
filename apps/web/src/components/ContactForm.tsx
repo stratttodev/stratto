@@ -375,7 +375,7 @@ export default function ContactForm() {
         </p>
       </div>
       <a
-        href="/"
+        href="https://stratto.dev"
         className="font-mono text-sm px-8 py-3 rounded-full inline-block"
         style={{ backgroundColor: t.accent, color: "#000000" }}
       >

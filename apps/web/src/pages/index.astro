@@ -9,34 +9,64 @@ import Separator from "../components/Separator.astro";
 import Collab from "../components/Collab.astro";
 import Tech from "../components/Tech.astro";
 import Footer from "../components/Footer.astro";
+import ContactForm from "../components/ContactForm";
 ---
 
 <Layout title="Stratto — Lab. tecnológico">
-  <Navbar />
-  <Header />
-  <main id="main-content">
-    <WhoAre>
-      <Fragment slot="heading">Quiénes somos</Fragment>
-    </WhoAre>
+  {/* Landing — visible solo en stratto.dev */}
+  <div id="landing-view">
+    <Navbar />
+    <Header />
+    <main id="main-content">
+      <WhoAre>
+        <Fragment slot="heading">Quiénes somos</Fragment>
+      </WhoAre>
 
-    <Services>
-      <Fragment slot="heading">Servicios</Fragment>
-    </Services>
+      <Services>
+        <Fragment slot="heading">Servicios</Fragment>
+      </Services>
 
-    <Teams>
-      <Fragment slot="heading">Equipos</Fragment>
-    </Teams>
+      <Teams>
+        <Fragment slot="heading">Equipos</Fragment>
+      </Teams>
 
-    <Separator />
+      <Separator />
 
-    <Collab>
-      <Fragment slot="heading">Colaboración</Fragment>
-    </Collab>
+      <Collab>
+        <Fragment slot="heading">Colaboración</Fragment>
+      </Collab>
 
-    <Tech>
-      <Fragment slot="heading">Tecnología</Fragment>
-    </Tech>
-  </main>
+      <Tech>
+        <Fragment slot="heading">Tecnología</Fragment>
+      </Tech>
+    </main>
 
-  <Footer />
+    <Footer />
+  </div>
+
+  {/* Contacto — visible solo en contact.stratto.dev */}
+  <div id="contact-view" style="display:none;">
+    <ContactForm client:load />
+  </div>
+
+  <script is:inline>
+    (function () {
+      var isContact = window.location.hostname === "contact.stratto.dev";
+      var landing = document.getElementById("landing-view");
+      var contact = document.getElementById("contact-view");
+      if (isContact) {
+        if (landing) landing.style.display = "none";
+        if (contact) contact.style.display = "block";
+        document.documentElement.classList.add("is-contact-host");
+
+        document.title = "Stratto // Contacto & Brief";
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute("href", "https://contact.stratto.dev/");
+        var ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.setAttribute("content", "https://contact.stratto.dev/");
+        var ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute("content", "Stratto // Contacto & Brief");
+      }
+    })();
+  </script>
 </Layout>

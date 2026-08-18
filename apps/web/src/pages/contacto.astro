@@ -1,10 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
 import ContactForm from "../components/ContactForm";
 ---
 
-<Layout title="Stratto — Contacto">
-  <Navbar />
+<Layout title="Stratto // Contacto & Brief" description="Cuéntanos sobre tu proyecto. Formulario de contacto y brief inicial — Stratto." canonical="https://contact.stratto.dev/">
   <ContactForm client:load />
+
+  <script is:inline>
+    (function () {
+      var host = window.location.hostname;
+      if (host === "contact.stratto.dev") {
+        window.location.replace("/");
+      } else if (host === "stratto.dev" || host === "www.stratto.dev") {
+        window.location.replace("https://contact.stratto.dev/");
+      }
+    })();
+  </script>
 </Layout>
